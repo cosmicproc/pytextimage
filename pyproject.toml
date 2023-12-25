@@ -1,0 +1,15 @@
+[project]
+name = "pytextimage"
+description = "Generate custom images with text easily."
+version = "1.0"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Cosmic Process" }
+]
+dependencies = [
+    "argparse",
+    "pillow"
+]
+
+[project.scripts]
+pytextimage = "main:main"
