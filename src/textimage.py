@@ -15,17 +15,29 @@ COLORS = {
     "brown": (165, 42, 42),
     "white": (255, 255, 255),
     "grey": (128, 128, 128),
-    "transparent": (0, 0, 0, 0)
+    "transparent": (0, 0, 0, 0),
 }
 
 
 def parse_color(text):
     # Color codes from https://htmlcolorcodes.com/color-names/
     if text.lower() in COLORS:
-        return COLORS[text.lower()] + (255,) if len(COLORS[text.lower()]) == 3 else COLORS[text.lower()]
+        return (
+            COLORS[text.lower()] + (255,)
+            if len(COLORS[text.lower()]) == 3
+            else COLORS[text.lower()]
+        )
 
     try:
-        result = tuple([int(x) for x in text.replace(" ", "").replace("(", "").replace(")", "").split(",")][:4])
+        result = tuple(
+            [
+                int(x)
+                for x in text.replace(" ", "")
+                .replace("(", "")
+                .replace(")", "")
+                .split(",")
+            ][:4]
+        )
         if len(result) != 4:
             raise ValueError("invalid color value")
         return result
@@ -47,7 +59,11 @@ class Text:
             return ImageFont.truetype(self.font_name, size)
         except OSError:
             try:
-                self.font_name = subprocess.check_output(["fc-match", self.font_name]).decode().partition(":")[0]
+                self.font_name = (
+                    subprocess.check_output(["fc-match", self.font_name])
+                    .decode()
+                    .partition(":")[0]
+                )
                 return ImageFont.truetype(self.font_name, size)
             except (FileNotFoundError, OSError):
                 return None
@@ -85,8 +101,16 @@ class TextImage:
                     length = spacing * self.padding
                     last_text = ""
                 length += draw.textlength(last_text + line, font=font) / 2
-                max_length = max(length + draw.textlength(line, font=font) / 2, max_length)
-                draw.text((length, height), line, font=font, fill=text_element.color, anchor="mm")
+                max_length = max(
+                    length + draw.textlength(line, font=font) / 2, max_length
+                )
+                draw.text(
+                    (length, height),
+                    line,
+                    font=font,
+                    fill=text_element.color,
+                    anchor="mm",
+                )
                 last_text = line
         height += spacing / 2 + spacing * self.padding
         max_length += spacing * self.padding

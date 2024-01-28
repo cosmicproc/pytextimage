@@ -1,6 +1,6 @@
 import platform
 
-from textimage import *
+import textimage
 
 if platform.system() == "Windows":
     import os
@@ -17,7 +17,7 @@ COLORS_CODES = {
     "PURPLE": "\033[35m",
     "CYAN": "\033[36m",
     "WHITE": "\033[37m",
-    "RESET": "\033[0m"
+    "RESET": "\033[0m",
 }
 
 
@@ -36,7 +36,7 @@ colored_print = colorify(print)
 
 
 def ask_text():
-    text = Text()
+    text = textimage.Text()
     text.content = input("Enter a text piece: ").replace("\\n", "\n")
     while len(text.content) < 1:
         colored_print("Text piece cannot be empty.", color="RED")
@@ -46,7 +46,9 @@ def ask_text():
         text.font_name = text_font
     while True:
         try:
-            text_color = input("Enter the text color (default = '" + str(text.color) + "'): ")
+            text_color = input(
+                "Enter the text color (default = '" + str(text.color) + "'): "
+            )
             if text_color:
                 text.set_color(text_color)
             break
@@ -58,7 +60,9 @@ def ask_text():
 
 def interact(design):
     while True:
-        text_size = input("Enter the text size (default = '" + str(design.text_size) + "'): ")
+        text_size = input(
+            "Enter the text size (default = '" + str(design.text_size) + "'): "
+        )
         try:
             if text_size:
                 design.text_size = int(text_size)
@@ -67,7 +71,10 @@ def interact(design):
             colored_print("Invalid size value. (must be an integer)", color="RED")
     while True:
         background_color = input(
-            "Enter the background color of the image (default = '" + str(design.background_color) + "'): ")
+            "Enter the background color of the image (default = '"
+            + str(design.background_color)
+            + "'): "
+        )
         try:
             if background_color:
                 design.set_color(background_color)
@@ -85,7 +92,9 @@ def interact(design):
     if prompt.lower() != "n" and prompt.lower() != "no":
         design.preview_image()
         while True:
-            design.save_path = input("Enter the save path for the image (leave empty to not save): ")
+            design.save_path = input(
+                "Enter the save path for the image (leave empty to not save): "
+            )
             try:
                 if design.save_path:
                     design.save_image()

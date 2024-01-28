@@ -1,8 +1,8 @@
 import sys
 
-from textimage import *
 import args
 import interactive
+import textimage
 
 DEBUG = False
 
@@ -11,9 +11,9 @@ def main():
     if not DEBUG:
         sys.tracebacklimit = 0
     try:
-        design = args.configure_with_args(TextImage())
+        design = args.configure_with_args(textimage.TextImage())
         if not design:
-            design = TextImage()
+            design = textimage.TextImage()
             interactive.interact(design)
         else:
             design.generate_image()
