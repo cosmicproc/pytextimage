@@ -48,7 +48,7 @@ def parse_color(text):
 class Text:
     def __init__(self):
         self.content = None
-        self.font_name = "sans-serif"
+        self.font_name = "Arial"
         self.color = (0, 0, 0, 255)
 
     def set_color(self, text):
